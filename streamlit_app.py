@@ -69,8 +69,13 @@ streamlit.stop()
 # allow the end user to add a fruit to the list
 def insert_row_snowflake(new_fruit):
     with my_cnx.cursor() as my_cur:
-        my_cur.execute("insert into fruit_load_list values ('" + jackfruit + "')")
-        return 'Thanks for adding ' + new_fruit
+        query = "insert into fruit_load_list values (?)"
+        my_cur.executemany(query, [(fruit,) for fruit in fruits])
+        my_cnx.commit()
+        return 'Thanks for adding ' + ', '.join(fruits)
+
+fruits_to_insert = ["jackfruit", "papaya", "guava", "kiwi"]
+insert_rows_snowflake(fruits_to_insert)
 
 # streamlit.stop()
 
