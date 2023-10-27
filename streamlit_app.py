@@ -70,12 +70,15 @@ if streamlit.button('Get Fruit Load List'):
 def insert_row_snowflake(new_fruit):
     with my_cnx.cursor() as my_cur:
         query = "insert into fruit_load_list values (?)"
-        my_cur.executemany(query, [(fruit,) for fruit in fruits])
+        my_cur.execute(query, (new_fruit,))
         my_cnx.commit()
-        return 'Thanks for adding ' + ', '.join(fruits)
+        return 'Thanks for adding ' + new_fruit
 
-fruits_to_insert = ["jackfruit", "papaya", "guava", "kiwi"]
-insert_rows_snowflake(fruits_to_insert)
+insert_row_snowflake("jackfruit")
+insert_row_snowflake("papaya")
+insert_row_snowflake("guava")
+insert_row_snowflake("kiwi")
+
 
 # streamlit.stop()
 
